@@ -39,7 +39,7 @@ void toggle( int input, int* outs, int outputc )
     if( ( state & ( 0x01 << input ) ) != 0 )
     {
       Serial.println( "Trykket" );
-      Serial.println( digitalRead( relay0 ) );
+//      Serial.println( digitalRead( relay0 ) );
       for( int i = 0; i < outputc; ++i )
       {
         int output = outputs[ outs[ i ] ];
