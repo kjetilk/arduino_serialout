@@ -1,18 +1,40 @@
-/*
-  Shift Register lighting control
-  based on Tom Igoe's shift register example
-
- */
-
 // Inputs and outputs numbered differently?
-int inputs[8]  = { 22, 23, 24, 25, 26, 27, 28, 29 };
+int inputs[]  = { 22, // Inngang 1:
+                  23, // Inngang 2:  
+                  24, // Inngang 3:
+                  25, // Inngang 4:
+                  26, // Inngang 5:  
+                  27, // Inngang 6:  
+                  28, // Inngang 7:  
+                  29, // Inngang 8:  
+                  30, // Inngang 9:  
+                  31, // Inngang 10: 
+                  32, // Inngang 11: 
+                  33, // Inngang 12: 
+                  34, // Inngang 13: 
+                  35, // Inngang 14: 
+                  36, // Inngang 15: 
+                  37, // Inngang 16: 
+                  38, // Inngang 17: 
+                  39, // Inngang 18: 
+                  40, // Inngang 19: 
+                  41, // Inngang 20: 
+                  42, // Inngang 21: 
+                  43, // Inngang 22: 
+                  44, // Inngang 23: 
+                  45, // Inngang 24: 
+ };
 
-//Pin connected to latch pin (ST_CP) of 74HC595
+int inputCounter[ sizeof( inputs ) ]; // Counts how many rotations/checks the button has been pressed.
+
+uint32_t outputs = 0;
+
+//Pin connected to latch pin 
 const int latchPin = 8;
-//Pin connected to clock pin (SH_CP) of 74HC595
-const int clockPin = 12;
-////Pin connected to Data in (DS) of 74HC595
-const int dataPin = 11;
+//Pin connected to clock pin 
+const int clockPin = 9;
+////Pin connected to Data in 
+const int dataPin = 10;
 
 void setup() {
   //set pins to output because they are addressed in the main loop
@@ -20,57 +42,48 @@ void setup() {
   pinMode(dataPin, OUTPUT);  
   pinMode(clockPin, OUTPUT);
   
-  for( int i = 0; i < 8; ++i )
+  for( unsigned int i = 0; i < sizeof( inputs ); ++i )
   {
-    pinMode( inputs[i], INPUT);
-    digitalWrite( inputs[i], HIGH);
+    pinMode( inputs[i], INPUT);      // Set as input
+    digitalWrite( inputs[i], HIGH);  // Enable pull-up resistor
+    inputCounter[ i ] = 0;
   }
   
   Serial.begin(9600);
   Serial.println("reset");
-}
+ }
 
-int state = 0xFF; // Bitshifted last-state
-
-void toggle( int input, int* outs, int outputc )
+void readInputs() // Reads trough all inputs, sets output if relevant
 {
-  if( digitalRead( inputs[ input ] ) == 0 )
+  for( unsigned int i = 0; i < sizeof( inputs ); ++i )
   {
-    if( ( state & ( 0x01 << input ) ) != 0 )
+    if( digitalRead( inputs[ i ] ) == 0 ) // Button pressed
     {
-      Serial.println( "Trykket" );
-//      Serial.println( digitalRead( relay0 ) );
-      for( int i = 0; i < outputc; ++i )
+      ++inputCounter[ i ];
+      if( inputCounter[ i ] == 0x7fff )
       {
-        int output = outputs[ outs[ i ] ];
-        digitalWrite( output, !digitalRead( output ) );
-
-        Serial.println( state, HEX );
-        state ^= 0x01 << input;
-        Serial.println( state, HEX );
+        --inputCounter[ i ];
       }
-      delay( 100 );
+      if( inputCounter[ i ] == 0x10 ) // 10 rotations of about 5ms(?)
+      {
+        outputs ^= (uint32_t)1 << i; // Toggle
+      }
     }
   }
-  else if( ( state & ( 0x01 << input ) ) == 0 )
-  {
-    Serial.println( "Sluppet" );
-    state ^= 0x01 << input;
-    Serial.println( state, HEX );
-    delay( 100 );
-  }
 }
 
+void setOutputs() // Pushes out all the outputs
+{
+  digitalWrite( latchPin, LOW );
+  shiftOut( dataPin, clockPin, MSBFIRST, outputs >> 16 );
+  shiftOut( dataPin, clockPin, MSBFIRST, outputs >> 8 );
+  shiftOut( dataPin, clockPin, MSBFIRST, outputs );
+  digitalWrite( latchPin, HIGH );
+}
 
-void loop() {
-  long i = 0;
-  while( 1 )
-  {
-    digitalWrite(latchPin, LOW);
-//    shiftOut(dataPin, clockPin, MSBFIRST, i >> 16);
-    shiftOut(dataPin, clockPin, MSBFIRST, i >> 8);
-    shiftOut(dataPin, clockPin, MSBFIRST, i);
-    digitalWrite(latchPin, HIGH);
-    ++i;
-  }
+void loop()
+{
+  // Just read and write for now.
+  readInputs();
+  setOutputs();
 }
