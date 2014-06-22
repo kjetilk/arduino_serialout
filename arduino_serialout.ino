@@ -27,12 +27,12 @@ int inputCounter[ sizeof( inputs ) ]; // Counts how many rotations/checks the bu
 uint32_t outputs = 0;
 
 /* ** Pinouts on TPIC6A596 Board **
-Pin count starting from terminal
+Pin count starting opposite terminal
+0 - Clock (Pin 10 on chip)
 1 - Latch (Pin 9 RCK on chip)
-2 - Ground
-3 - Clock (Pin 10 on chip)
+2 - Data  (Pin 22 on chip)
+3 - Ground
 4 - Power (Pin 21 on chip, 5V from Arduino)
-5 - Data  (Pin 22 on chip)
 */
 
 //Pin connected to latch pin 
