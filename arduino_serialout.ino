@@ -26,11 +26,20 @@ int inputCounter[ sizeof( inputs ) ]; // Counts how many rotations/checks the bu
 
 uint32_t outputs = 0;
 
+/* ** Pinouts on TPIC6A596 Board **
+Pin count starting from terminal
+1 - Latch (Pin 9 RCK on chip)
+2 - Ground
+3 - Clock (Pin 10 on chip)
+4 - Power (Pin 21 on chip, 5V from Arduino)
+5 - Data  (Pin 22 on chip)
+*/
+
 //Pin connected to latch pin 
-const int latchPin = 8;
+const int latchPin = 8; // Goes to the pin 1 on board
 //Pin connected to clock pin 
-const int clockPin = 9;
-////Pin connected to Data in 
+const int clockPin = 9; // Goes to the middle pin 
+////Pin connected to Data pin 
 const int dataPin = 10;
 /////Pin connected status
 const int statusPin = 13;
