@@ -35,10 +35,10 @@ Pin count starting opposite terminal
 4 - Power (Pin 21 on chip, 5V from Arduino)
 */
 
-//Pin connected to latch pin 
-const int latchPin = 8; // Goes to the pin 1 on board
 //Pin connected to clock pin 
-const int clockPin = 9; // Goes to the middle pin 
+const int clockPin = 8; 
+//Pin connected to latch pin 
+const int latchPin = 9; 
 ////Pin connected to Data pin 
 const int dataPin = 10;
 /////Pin connected status
