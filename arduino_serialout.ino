@@ -28,12 +28,13 @@ uint32_t outputs = 0;
 
 /* ** Pinouts on TPIC6A596 Board **
 Pin count starting opposite terminal
-0 - Clock (Pin 10 on chip)
-1 - Latch (Pin 9 RCK on chip)
-2 - Data  (Pin 22 on chip)
+0 - Clock (Pin 10 on chip, 8 on Arduino)
+1 - Latch (Pin 9 RCK on chip, 9 on Arduino)
+2 - Data  (Pin 22 on chip, 10 on Arduino)
 3 - Ground
 4 - Power (Pin 21 on chip, 5V from Arduino)
 */
+
 
 //Pin connected to clock pin 
 const int clockPin = 8; 
