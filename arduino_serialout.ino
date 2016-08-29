@@ -25,6 +25,7 @@ byte inputs[]  = {
 int inputCounter[ sizeof( inputs ) ]; // Counts how many rotations/checks the button has been pressed.
 
 uint32_t outputs = 0;
+boolean isaway = 0;
 
 /* ** Pinouts on TPIC6A596 Board **
 Pin count starting opposite terminal
@@ -51,9 +52,9 @@ const int statusPin = 13;
 //Pin inputting night status
 const int nightPin = 37;
 //Pin inputting away status
-const int awayPin = 38;
+const int awayPin = 39;
 //Pin for red LED
-const int redPin = 39;
+const int redPin = 38;
 //Pin for green LED
 const int greenPin = 40;
 
@@ -104,6 +105,7 @@ void readInputs() // Reads trough all inputs, sets output if relevant
       {
         outputs ^= (uint32_t)1 << i; // Toggle
       }
+      Serial.println(outputs);
     } else {
       inputCounter[ i ] = 0;
       digitalWrite( statusPin, LOW ); // So, it'll be dimmed by number of switches
@@ -122,8 +124,29 @@ void setOutputs() // Pushes out all the outputs
 
 void loop()
 {
-  // Just read and write for now.
-  readInputs();
+  if( digitalRead( nightPin ) == 0 ) { // Then, the night switch has been pressed
+    outputs = 0xfffff; // Turn off everything
+    digitalWrite( nightOutPin, HIGH );
+    delay(100);
+    digitalWrite( nightOutPin, LOW );
+  } else if( digitalRead( awayPin ) == 0 ) { // Then, the away switch has been pressed
+    if (isaway) { // Then, we've just gotten home
+      Serial.println(F("Setting us at home"));
+      isaway = 0;
+      digitalWrite( awayOutPin, LOW );
+      digitalWrite( redPin, LOW );
+      delay(1000);
+    } else { // We're just about to leave
+      Serial.println(F("Setting us away"));
+      isaway = 1;
+      outputs = 0xfffff;
+      digitalWrite( awayOutPin, HIGH );
+      digitalWrite( redPin, HIGH );
+      delay(1000);
+    }
+  } else {
+    readInputs();
+  }
   setOutputs();
 }
 
