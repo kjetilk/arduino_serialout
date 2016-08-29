@@ -71,8 +71,7 @@ void setup() {
 
   for( unsigned int i = 0; i < sizeof( inputs ); ++i )
   {
-    pinMode( inputs[i], INPUT);      // Set as input
-    digitalWrite( inputs[i], HIGH);  // Enable pull-up resistor
+    pinMode( inputs[i], INPUT_PULLUP);  // Set as input and enable pull-up resistor
     inputCounter[ i ] = 0;
   }
 
