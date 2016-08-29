@@ -15,7 +15,7 @@ byte inputs[]  = {
   34,
   35,
   36, // Pins 37-44 unused since they are connected with dimmers
-  45, // Pin 39 prohibited by P-ATA cable
+  45, 
   46,
   47,
   48,
@@ -42,17 +42,32 @@ const int clockPin = 8;
 const int latchPin = 9; 
 ////Pin connected to Data pin 
 const int dataPin = 10;
+//Pin outputting night status
+const int nightOutPin = 11;
+//Pin outputting away status
+const int awayOutPin = 12;
 /////Pin connected status
 const int statusPin = 13;
+//Pin inputting night status
+const int nightPin = 37;
+//Pin inputting away status
+const int awayPin = 38;
+//Pin for red LED
+const int redPin = 39;
+//Pin for green LED
+const int greenPin = 40;
 
 void setup() {
   //set pins to output because they are addressed in the main loop
-  pinMode(latchPin, OUTPUT);
+  pinMode(redPin, OUTPUT);
+  digitalWrite( redPin, HIGH ); // Just to blink it
+  pinMode(greenPin, OUTPUT);
   pinMode(dataPin, OUTPUT);  
+  pinMode(latchPin, OUTPUT);
   pinMode(clockPin, OUTPUT);
+  pinMode(nightOutPin, OUTPUT);  
+  pinMode(awayOutPin, OUTPUT);
   pinMode(statusPin, OUTPUT);
-
-  digitalWrite( statusPin, LOW );
 
   for( unsigned int i = 0; i < sizeof( inputs ); ++i )
   {
@@ -60,6 +75,12 @@ void setup() {
     digitalWrite( inputs[i], HIGH);  // Enable pull-up resistor
     inputCounter[ i ] = 0;
   }
+
+  digitalWrite( statusPin, LOW );
+  digitalWrite( nightOutPin, LOW );
+  digitalWrite( awayOutPin, LOW );
+  digitalWrite( greenPin, LOW );
+  digitalWrite( redPin, LOW );
 
   Serial.begin(9600);
   Serial.println("reset");
