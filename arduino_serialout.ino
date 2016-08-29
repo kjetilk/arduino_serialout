@@ -75,6 +75,9 @@ void setup() {
     inputCounter[ i ] = 0;
   }
 
+  pinMode( nightPin, INPUT_PULLUP);  // Set as night input and enable pull-up resistor
+  pinMode( awayPin, INPUT_PULLUP);  // Set as away input and enable pull-up resistor
+
   digitalWrite( statusPin, LOW );
   digitalWrite( nightOutPin, LOW );
   digitalWrite( awayOutPin, LOW );
