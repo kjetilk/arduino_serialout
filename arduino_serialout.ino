@@ -50,9 +50,9 @@ const int awayOutPin = 12;
 /////Pin connected status
 const int statusPin = 13;
 //Pin inputting night status
-const int nightPin = 37;
+const int nightPin = 39;
 //Pin inputting away status
-const int awayPin = 39;
+const int awayPin = 41;
 //Pin for red LED
 const int redPin = 38;
 //Pin for green LED
@@ -105,9 +105,12 @@ void readInputs() // Reads trough all inputs, sets output if relevant
       {
         outputs ^= (uint32_t)1 << i; // Toggle
       }
-      isaway = 0;
-      digitalWrite( awayOutPin, LOW );
-      digitalWrite( redPin, LOW );
+      if (isaway) { // Then, we've just gotten home
+        Serial.println(F("Lights on => at home"));
+        isaway = 0;
+        digitalWrite( awayOutPin, LOW );
+        digitalWrite( redPin, LOW );
+      }
       Serial.println(outputs);
     } else {
       inputCounter[ i ] = 0;
@@ -128,7 +131,8 @@ void setOutputs() // Pushes out all the outputs
 void loop()
 {
   if( digitalRead( nightPin ) == 0 ) { // Then, the night switch has been pressed
-    outputs = 0xfffff; // Turn off everything
+    Serial.println(F("Turn off everything at night."));
+    outputs = 0xfffff;
     digitalWrite( nightOutPin, HIGH );
     delay(100);
     digitalWrite( nightOutPin, LOW );
