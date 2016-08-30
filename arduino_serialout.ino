@@ -1,9 +1,5 @@
 // Inputs and outputs numbered differently?
 byte inputs[]  = { 
-  22, // Synne, 50, Due to conflict with Ethernet
-  23, // Vaskerom 51,
-  24, // Gang 53,
-  25, // Bordlys 52,
   26, // Lager
   27, // Teknisk
   28, // Garderobe
@@ -19,7 +15,11 @@ byte inputs[]  = {
   46, // Marius 
   47, // Speillys bad 2 etg
   48, // Trappelys
-  49  // Eivind
+  49, // Eivind
+  22, // Synne, 50, Due to conflict with Ethernet
+  23, // Vaskerom 51, Due to conflict with Ethernet
+  25, // Bordlys 52, Due to conflict with Ethernet
+  24  // Gang 53, Due to conflict with Ethernet
 };
 
 int inputCounter[ sizeof( inputs ) ]; // Counts how many rotations/checks the button has been pressed.
