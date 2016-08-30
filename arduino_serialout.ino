@@ -1,25 +1,25 @@
 // Inputs and outputs numbered differently?
 byte inputs[]  = { 
-  22, // 50, Due to conflict with Ethernet
-  23, // 51,
-  24, // 52,
-  25, // 53,
-  26,
-  27, 
-  28, 
-  29,
-  30,
-  31,
-  32,
-  33,
-  34,
-  35,
-  36, // Pins 37-44 unused since they are connected with dimmers
-  45, 
-  46,
-  47,
-  48,
-  49
+  22, // Synne, 50, Due to conflict with Ethernet
+  23, // Vaskerom 51,
+  24, // Gang 53,
+  25, // Bordlys 52,
+  26, // Lager
+  27, // Teknisk
+  28, // Garderobe
+  29, // Vindfang
+  30, // Gang kjeller
+  31, // Gjesterom
+  32, // Kontor
+  33, // Matbod
+  34, // Disp
+  35, // Speillys bad 1 etg
+  36, // Utelys
+  45, // LED dusj 2. etg (unused)
+  46, // Marius 
+  47, // Speillys bad 2 etg
+  48, // Trappelys
+  49  // Eivind
 };
 
 int inputCounter[ sizeof( inputs ) ]; // Counts how many rotations/checks the button has been pressed.
