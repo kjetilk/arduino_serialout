@@ -80,10 +80,13 @@ void setup() {
   pinMode( awayPin, INPUT_PULLUP);  // Set as away input and enable pull-up resistor
 
   digitalWrite( statusPin, LOW );
-  digitalWrite( nightOutPin, LOW );
-  digitalWrite( awayOutPin, LOW );
   digitalWrite( greenPin, LOW );
   digitalWrite( redPin, LOW );
+
+  // To communicate status to other Arduinos
+  digitalWrite( nightOutPin, HIGH );
+  digitalWrite( awayOutPin, HIGH );
+
 
   Serial.begin(9600);
   Serial.println("reset");
@@ -133,13 +136,13 @@ void loop()
   if( digitalRead( nightPin ) == 0 ) { // Then, the night switch has been pressed
     Serial.println(F("Turn off everything at night."));
     outputs = 0xfffff;
-    digitalWrite( nightOutPin, HIGH );
-    delay(100);
     digitalWrite( nightOutPin, LOW );
+    delay(100);
+    digitalWrite( nightOutPin, HIGH );
   } else if( digitalRead( awayPin ) == 0 ) { // Then, the away switch has been pressed
     if (isaway) { // Then, we've just gotten home
       Serial.println(F("Setting us at home"));
-      digitalWrite( awayOutPin, LOW );
+      digitalWrite( awayOutPin, HIGH );
       digitalWrite( redPin, LOW );
       isaway = 0;
       delay(1000);
@@ -147,7 +150,7 @@ void loop()
       Serial.println(F("Setting us away"));
       isaway = 1;
       outputs = 0xfffff;
-      digitalWrite( awayOutPin, HIGH );
+      digitalWrite( awayOutPin, LOW );
       digitalWrite( redPin, HIGH );
       delay(1000);
     }
