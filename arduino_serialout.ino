@@ -143,7 +143,7 @@ void loop()
     if (isaway) { // Then, we've just gotten home
       Serial.println(F("Setting us at home"));
       digitalWrite( awayOutPin, HIGH );
-      digitalWrite( redPin, LOW );
+      digitalWrite( greenPin, HIGH );
       isaway = 0;
       delay(1000);
     } else { // We're just about to leave
@@ -151,7 +151,7 @@ void loop()
       isaway = 1;
       outputs = 0xfffff;
       digitalWrite( awayOutPin, LOW );
-      digitalWrite( redPin, HIGH );
+      digitalWrite( greenPin, LOW );
       delay(1000);
     }
   } else {
