@@ -112,7 +112,7 @@ void readInputs() // Reads trough all inputs, sets output if relevant
         Serial.println(F("Lights on => at home"));
         isaway = 0;
         digitalWrite( awayOutPin, LOW );
-        digitalWrite( redPin, LOW );
+        digitalWrite( greenPin, HIGH );
       }
       Serial.println(outputs);
     } else {
