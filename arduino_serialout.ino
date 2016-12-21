@@ -94,7 +94,13 @@ void setup() {
 
 void setAway() {
   isaway = 1;
-  outputs = 0xfffff;
+  Serial.println(outputs);
+  if(bitRead(outputs, 11) == 1) {
+    // Then the outside light is on, keep it that way
+    outputs = 0xffdff;
+  } else {
+    outputs = 0xfffff;
+  }
   digitalWrite( awayOutPin, LOW );
   digitalWrite( greenPin, LOW );
 }
