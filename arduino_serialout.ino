@@ -92,6 +92,19 @@ void setup() {
   Serial.println("reset");
 }
 
+void setAway() {
+  isaway = 1;
+  outputs = 0xfffff;
+  digitalWrite( awayOutPin, LOW );
+  digitalWrite( greenPin, LOW );
+}
+
+void setHome() {
+  isaway = 0;
+  digitalWrite( awayOutPin, HIGH );
+  digitalWrite( greenPin, HIGH );
+}
+
 void readInputs() // Reads trough all inputs, sets output if relevant
 {
   for( unsigned int i = 0; i < sizeof( inputs ); ++i )
@@ -110,9 +123,7 @@ void readInputs() // Reads trough all inputs, sets output if relevant
       }
       if (isaway) { // Then, we've just gotten home
         Serial.println(F("Lights on => at home"));
-        isaway = 0;
-        digitalWrite( awayOutPin, LOW );
-        digitalWrite( greenPin, HIGH );
+        setHome();
       }
       Serial.println(outputs);
     } else {
@@ -142,16 +153,11 @@ void loop()
   } else if( digitalRead( awayPin ) == 0 ) { // Then, the away switch has been pressed
     if (isaway) { // Then, we've just gotten home
       Serial.println(F("Setting us at home"));
-      digitalWrite( awayOutPin, HIGH );
-      digitalWrite( greenPin, HIGH );
-      isaway = 0;
+      setHome();
       delay(1000);
     } else { // We're just about to leave
       Serial.println(F("Setting us away"));
-      isaway = 1;
-      outputs = 0xfffff;
-      digitalWrite( awayOutPin, LOW );
-      digitalWrite( greenPin, LOW );
+      setAway();
       delay(1000);
     }
   } else {
