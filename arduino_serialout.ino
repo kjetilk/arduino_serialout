@@ -19,7 +19,8 @@ byte inputs[]  = {
   22, // Synne, 50, Due to conflict with Ethernet
   23, // Vaskerom 51, Due to conflict with Ethernet
   25, // Bordlys 52, Due to conflict with Ethernet
-  24  // Gang 53, Due to conflict with Ethernet
+  24, // Gang 53, Due to conflict with Ethernet
+  37  // Overskap
 };
 
 int inputCounter[ sizeof( inputs ) ]; // Counts how many rotations/checks the button has been pressed.
@@ -94,7 +95,7 @@ void setup() {
 
 void setAway() {
   isaway = 1;
-  outputs = 0xfffff;
+  outputs = 0x1fffff;
   digitalWrite( awayOutPin, LOW );
   digitalWrite( greenPin, LOW );
 }
@@ -146,7 +147,7 @@ void loop()
 {
   if( digitalRead( nightPin ) == 0 ) { // Then, the night switch has been pressed
     Serial.println(F("Turn off everything at night."));
-    outputs = 0xfffff;
+    outputs = 0x1fffff;
     digitalWrite( nightOutPin, LOW );
     delay(100);
     digitalWrite( nightOutPin, HIGH );
