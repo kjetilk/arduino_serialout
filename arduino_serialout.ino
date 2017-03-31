@@ -112,6 +112,8 @@ void readInputs() // Reads trough all inputs, sets output if relevant
   {
     if( digitalRead( inputs[ i ] ) == 0 ) // Button pressed
     {
+      //Serial.print(F("Press registered on input pin: "));
+      //Serial.println(inputs[ i ]);
       digitalWrite( statusPin, HIGH );  
       ++inputCounter[ i ];
       if( inputCounter[ i ] == 0x7fff )
